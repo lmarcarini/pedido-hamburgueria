@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Hamburgueria</title>
+	<!--Dependencies that are too important for the page-->
+	<script src="https://code.jquery.com/jquery-3.2.1.js" crossorigin="anonymous"></script>
+	<!-- PAGE settings -->
+	<title>Checkout</title>
+	<meta name="description" content="Plataforma de pedido da Valbiernielsons Hamburgueria">
+	<meta name="keywords" content="Pedido Hamburgueria">
+	<meta name="author" content="Leonaro Marcarini Borges">
+	<!-- CSS dependencies -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+	<link rel="stylesheet" href="wireframe.css">
+</head>
+
+<body class="bg-light">
+<!--Barra de Navegação Superior-->
+				<nav class="navbar navbar-expand-md navbar-dark bg-dark" draggable="true" >
+				  <div class="container"> <a class="navbar-brand" href="#" id="Principal">
+					  <i class="fa d-inline fa-lg fa-stop-circle"></i>
+					  <b> Valbernielson's Hamburgueria</b>
+					</a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar10">
+					  <span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbar10">
+					  <ul class="navbar-nav ml-auto">
+						<li class="nav-item"> <a class="nav-link" href="#" id="Peca2">Peça</a> </li>
+						<li class="nav-item"> <a class="nav-link" href="#" data-target="#TelefoneModal" data-toggle="modal">Visualize</a> </li>
+						<li class="nav-item"> <a class="nav-link" href="interno.html">Login</a> </li>
+					  </ul>
+					</div>
+				  </div>
+				</nav>
+<!--Tela de Seleção Inicial-->
+				<div class="py-5 text-center">
+				  <div class="container" id="actionmenu">
+					<div class="row">
+					  <div class="mx-auto col-lg-10">
+						<h1>Acabe com sua fome conosco!</h1>
+						<div class="row">
+						  <div class="col-md-6 px-5 mt-3"> <i class="d-block fas fa-hamburger fa-4x mb-3 text-muted"></i>
+							<h4>Faça seu pedido</h4>
+							<a class="btn btn-primary" href="#" id="Peca">Peça</a>
+						  </div>
+						  <div class="col-md-6 px-5 mt-3">
+							<i class="d-block fas fa-eye fa-4x mb-3 text-muted"></i>
+							<h4>Visualize seus pedidos</h4>
+							<a class="btn btn-primary" href="#" data-target="#TelefoneModal" data-toggle="modal">Visualize</a>
+						  </div>
+						</div>
+					  </div>
+					</div>
+				  </div>
+<!--Tela de Histórico-->
+				  <div class="container" id="historico">
+					<div class="row pi-draggable" draggable="true">
+					  <div class="col-md-8">
+						<h3 class="pi-draggable" draggable="true" id="displayNumero">Pedidos para:  </h3>
+					  </div>
+					  <div class="col-md-4"><a class="btn btn-primary pi-draggable" href="#" data-target="#TelefoneModal" data-toggle="modal">Mudar telefone</a></div>
+					</div>
+					<div class="table-responsive pi-draggable" draggable="true">
+					  <table class="table table-striped table-dark">
+						<thead>
+						  <tr>
+							<th scope="col">#</th>
+							<th scope="col">Data</th>
+							<th scope="col">Status</th>
+						  </tr>
+						</thead>
+						<tbody id="listaPedidos">
+						</tbody>
+					  </table>
+					</div>
+				  </div>
+<!--Tela de Pedido-->
+<div class="container" id="pedidomenu">
+	<div class="row" draggable="true">
+		<div class="mx-auto col-lg-10" draggable="true">
+		<h1>Monte seu pedido!</h1>
+		<div id="itensMenu">
+		</div>
+		<div class="row">
+			<div class="col-md-4"><a class="btn btn-primary m-1" href="#" data-target="#FinalizacaoModal" data-toggle="modal"><i class="d-block fas fa-shopping-cart "> Finalizar pedido</i></a></div>
+			<div class="h4 col-md-4 text-right">Total:</div>
+			<div class="h4 col-md-4" id="totalPedido">R$ 0,00</div>
+		</div>
+		</div>
+	</div>
+</div>
+<!--Tela de Alteracao-->
+<div class="container" id="alteracaomenu">
+	<div class="row" draggable="true">
+		<div class="mx-auto col-lg-10" draggable="true">
+		<h1>Altere seu pedido!</h1>
+		<div id="itensAlteracao">
+		</div>
+		<div class="row">
+			<div class="col-md-4"><a class="btn btn-primary m-1" href="#" data-target="#AlteracaoModal" data-toggle="modal"><i class="d-block fas fa-shopping-cart "> Alterar pedido</i></a></div>
+			<div class="h4 col-md-4 text-right">Total:</div>
+			<div class="h4 col-md-4" id="totalAlteracao">R$ 0,00</div>
+		</div>
+		</div>
+	</div>
+</div>
+<!--Modal de Alteração-->
+<div class="modal" id="AlteracaoModal">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Deseja confimar a alteração?</h5> <button type="button" class="close" data-dismiss="modal"> <span>×</span> </button>
+			</div>
+			<button class="btn btn-primary btn-lg btn-block" onclick="AlterarPedido()" data-dismiss="modal">Alterar Pedido</button>
+		</div>
+	</div>
+</div>
+	<!--Modal de Finalização-->
+<div class="modal" id="FinalizacaoModal">
+	<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title">Confirmação de Pedido</h5> <button type="button" class="close" data-dismiss="modal"> <span>×</span> </button>
+		</div>
+		<div class="modal-body">
+		<div class="">
+			<div class="container">
+			<div class="row">
+				<div class="col-md-4 order-md-2">
+				<h4 class="d-flex justify-content-between mb-3"> <span class="text-muted">Pedido</span> </h4>
+				<ul class="list-group" id="resumoPedido">
+				</ul>
+				</div>
+				<div class="col-md-8 order-md-1">
+				<h4 class="mb-3"><b>Informações de Entrega</b></h4>
+				<form>
+					<div class="row">
+					<div class="col-md-12 mb-3"> <label for="firstName">Nome</label>
+						<input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+						<div class="invalid-feedback"> Escreva seu nome. </div>
+					</div>
+					</div>
+					<div class="mb-3"> <label for="address">Endereço</label>
+					<input type="text" class="form-control" id="address" placeholder="" required="">
+					<div class="invalid-feedback"> Escreva seu endereço. </div>
+					</div>
+					<div class="mb-3"> <label for="telephone">Telefone</label>
+					<input type="text" class="form-control" id="telephone" placeholder="" required="">
+					<div class="invalid-feedback"> Forneça um telefone. </div>
+					</div>
+					<hr class="mb-1">
+					<h4 class="mb-1"><b>OBSERVAÇÕES</b></h4>
+					<div class="mb-1">
+					<input type="text" class="form-control" id="observacoes" placeholder="" required="">
+					<div class="invalid-feedback"> Quais são as observações. </div>
+					</div>
+					<hr class="mb-2">
+					<h4 class="mb-3"><b>PAGAMENTO</b></h4>
+					<div class="d-block my-3">
+					<div class="custom-control custom-radio">
+						<input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="" value="on"> <label class="custom-control-label" for="credit">Cartão</label> </div>
+					<div class="custom-control custom-radio">
+						<input id="money" name="paymentMethod" type="radio" class="custom-control-input" required="" value="on"> <label class="custom-control-label" for="money">Dinheiro</label> </div>
+					</div>
+					<hr class="mb-4">
+					<button class="btn btn-primary btn-lg btn-block" onclick="FinalizaPedidos()" data-dismiss="modal">Confirmar Pedido</button>
+				</form>
+				</div>
+			</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	</div>
+</div>
+<!-- Modal de Input de Telefone-->
+<div class="modal pi-draggable" draggable="true" id="TelefoneModal" style="display: none;" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+		<h5 class="modal-title">Qual telefone você usou para o pedido?</h5> <button type="button" class="close" data-dismiss="modal"> <span>×</span> </button>
+		</div>
+		<div class="modal-body">
+		<input type="text" class="form-control" id="pedidoTelefone" placeholder="" required="">
+		<div class="invalid-feedback"> Forneça um telefone. </div>
+		</div>
+		<div class="modal-footer"> <button type="button" class="btn btn-primary" id="VerPedidos" data-dismiss="modal">Ver pedidos</button> <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button> </div>
+	</div>
+	</div>
+</div>
+
+<!---->
+<!--Programação-->
+<!---->
+
+<script> //Abre as páginas adequadas
+	$('#Peca').click(function() {
+		show_pedido_menu();
+	});
+	$('#Peca2').click(function() {
+		show_pedido_menu();
+	});
+	$('#Principal').click(function() {
+		show_action_menu();
+	});
+	$('#VerPedidos').click(function() {
+		show_historico();
+		VisualizarPedidos(document.getElementById("pedidoTelefone").value);
+	});
+
+	function hide_containers() {
+		$('#actionmenu').hide();
+		$('#pedidomenu').hide();
+		$('#historico').hide();
+		$('#alteracaomenu').hide();
+	}
+
+	function show_action_menu() {
+		hide_containers();
+		$('#actionmenu').show();
+	}
+
+	function show_historico() {
+		hide_containers();
+		$('#historico').show();
+	}
+
+	function show_pedido_menu() {
+		hide_containers();
+		$('#pedidomenu').show();
+		}
+	
+	function show_alteracao_menu() {
+		hide_containers();
+		$('#alteracaomenu').show();
+		}
+
+	show_action_menu();
+</script>
+
+<script>
+
+//Pega os itens a partir do banco de dados
+var itens=[];
+function ListarItens(){
+	$.ajax({
+		dataType: "json",
+		url: 'read.php',
+		cache: false,
+		data: "data",
+		contentType: "application/json; charset=utf-8",
+		success: (function(response) {
+					response.forEach(function(item){
+						item.quantidade=0;
+						itens.push(item);
+					});
+					Preenche();
+				}
+			)
+	});
+}
+
+//Preenche os itens na tela
+function Preenche(){
+	itens.forEach(function(item){
+		document.getElementById("itensMenu").innerHTML+='<div class="row"> <div class="col-md-2"><img class="img-fluid center-block" src="assets/'+item.imgurl+'"></div> <div class="col-md-10"><a class="list-group-item list-group-item flex-column align-items-start"> <div class="d-flex w-100 justify-content-between">	<h2 class="col-9 mb-1 text-left"> '+ item.nome +' </h2><h2 class="mb-1" onclick="DiminuiQuantidade('+item.id+')">-</h2><h2 class="mb-1" onclick="AumentaQuantidade('+item.id+')">+</h2>	<h2 class="mb-1" id="QuantidadeId'+item.id+'">0</h2> </div> <div class="d-flex w-100 justify-content-between"><h7 class="col-9 mb-1 text-left">'+item.descricao+'</h7><h2 class="mb-1">R$ '+parseFloat(item.preco).toFixed(2).replace(".",",")+'</h2></div></a></div></div>';
+	})
+}
+
+//Acrescenta ou diminui a quantidade de um item
+function AumentaQuantidade(itemid){
+	item=itens.find(function(item){
+		return item.id==itemid;
+	})
+	item.quantidade+=1;
+	document.getElementById("QuantidadeId"+itemid).innerHTML=item.quantidade;
+	updateTotal();
+}
+function DiminuiQuantidade(itemid){
+	item=itens.find(function(item){
+		return item.id==itemid;
+	})
+	item.quantidade-=1;
+	if(item.quantidade<0) item.quantidade=0;
+	document.getElementById("QuantidadeId"+itemid).innerHTML=item.quantidade;
+	updateTotal();
+}
+function updateTotal(){
+	var total=0;
+	itens.forEach(function(menuitem){
+		total+=menuitem.quantidade*menuitem.preco;
+	})
+	document.getElementById("totalPedido").innerHTML="R$ "+total.toFixed(2).replace(".",",");
+}
+
+
+var telefone="27981232323";
+//Finaliza Pedidos
+function FinalizaPedidos(){
+	var cliente=document.getElementById("firstName").value;
+	var endereco=document.getElementById("address").value;
+	var telefone=document.getElementById("telephone").value;
+	var observacao=document.getElementById("observacoes").value;
+	var formapagamento="Dinheiro";
+	if(document.getElementById("credit").checked){
+		formapagamento="Cartao"
+	}
+	var formaentrega="Entrega";
+	var listaitens={};
+	itens.forEach(function(item){
+					if(item.quantidade>0) listaitens[item.id]=item.quantidade;
+				});
+	if(itens.length>0){
+		$.ajax({
+			type: "POST",
+			url: 'clientepedido.php',
+			dataType: 'json',
+			cache: false,
+			data: {
+				endereco: endereco,
+				telefone: telefone,
+				observacao: observacao,
+				formapagamento: formapagamento,
+				formaentrega: formaentrega,
+				cliente: cliente,
+				items: listaitens
+			},
+			success:(function(response){
+				//document.getElementById("text").innerHTML+="Pedido realizado";
+			}
+			)
+		});
+	}else{
+		//Adicione alguma coisa no carrinho
+		//document.getElementById("text").innerHTML="Adicione algum produto no carrinho";
+	}
+}
+
+//Pega a Lista de Pedidos
+var pedidos;
+function VisualizarPedidos(telefone){
+	document.getElementById("displayNumero").innerHTML="Pedidos de: "+telefone;
+	document.getElementById("listaPedidos").innerHTML="";
+	$.ajax({
+		type: "GET",
+		dataType: "json",
+		contentType: "application/json; charset=utf-8",
+		url: 'readPedidos.php',
+		cache: false,
+		data: {
+			telefone: telefone
+		}}).done(function(response){
+			var index=1;
+			response.forEach(function(item){
+				if(item.status=="pedido"||item.status=="visualizado"){
+					document.getElementById("listaPedidos").innerHTML+='<tr><th scope="row" onclick="pedidoid='+item.id+';EditaPedido();">'+index.toString()+'<i class="fas fa-edit"></i></th><td>'+item.horario+'</td>	<td>'+item.status+'</td>  </tr>'
+				}else{
+					document.getElementById("listaPedidos").innerHTML+='<tr><th scope="row">'+index.toString()+'</th><td>'+item.horario+'</td>	<td>'+item.status+'</td>  </tr>'
+				}
+				index++;
+			});
+			pedidos=response;
+		}	
+		)
+}
+
+var pedidoid=27;
+//Alterar Pedidos
+function EditaPedido(){
+	var itenspedidojx=$.ajax({
+			type: "POST",
+			url: 'getItensPedido.php',
+			dataType: 'json',
+			cache: false,
+			data: {
+				pedidoid: pedidoid
+			}})
+	itenspedidojx.done(function(response){
+		document.getElementById("itensAlteracao").innerHTML="";
+		itens.forEach(function(item){
+			var qtnd="0";
+			pedido=response.find(function(itempedido){
+				return item.id==itempedido.itemid;
+			});
+			qtnd=parseFloat(pedido.quantidade);
+			item.quantidade=qtnd;
+			document.getElementById("itensAlteracao").innerHTML+='<div class="row"> <div class="col-md-2"><img class="img-fluid center-block" src="assets/'+item.imgurl+'"></div> <div class="col-md-10"><a class="list-group-item list-group-item flex-column align-items-start"> <div class="d-flex w-100 justify-content-between">	<h2 class="col-9 mb-1 text-left"> '+ item.nome +' </h2><h2 class="mb-1" onclick="DiminuiQuantidadeAlt('+item.id+')">-</h2><h2 class="mb-1" onclick="AumentaQuantidadeAlt('+item.id+')">+</h2>	<h2 class="mb-1" id="QuantidadeIdAlt'+item.id+'">'+qtnd.toString()+'</h2> </div> <div class="d-flex w-100 justify-content-between"><h7 class="col-9 mb-1 text-left">'+item.descricao+'</h7><h2 class="mb-1">R$ '+parseFloat(item.preco).toFixed(2).replace(".",",")+'</h2></div></a></div></div>';
+			updateTotalAlt();
+			show_alteracao_menu();
+		})
+	})
+}
+function AlterarPedido(){
+	var listaitens={};
+	itens.forEach(function(item){
+					if(item.quantidade>0) listaitens[item.id]=item.quantidade;
+				});
+	$.ajax({
+			type: "POST",
+			url: 'clientepedido.php',
+			dataType: 'json',
+			cache: false,
+			data: {
+				pedidoid: pedidoid,
+				items: listaitens
+			},
+			success:(function(response){
+				//document.getElementById("text").innerHTML+="Pedido realizado";
+			}
+			)
+		});
+}
+//Acrescenta ou diminui a quantidade de um item nas alterações
+function AumentaQuantidadeAlt(itemid){
+	item=itens.find(function(item){
+		return item.id==itemid;
+	})
+	item.quantidade+=1;
+	document.getElementById("QuantidadeIdAlt"+itemid).innerHTML=item.quantidade;
+	updateTotalAlt();
+}
+function DiminuiQuantidadeAlt(itemid){
+	item=itens.find(function(item){
+		return item.id==itemid;
+	})
+	item.quantidade-=1;
+	if(item.quantidade<0) item.quantidade=0;
+	document.getElementById("QuantidadeIdAlt"+itemid).innerHTML=item.quantidade;
+	updateTotalAlt();
+}
+function updateTotalAlt(){
+	var total=0;
+	itens.forEach(function(menuitem){
+		total+=menuitem.quantidade*menuitem.preco;
+	})
+	document.getElementById("totalAlteracao").innerHTML="R$ "+total.toFixed(2).replace(".",",");
+}
+
+ListarItens();
+
+$("#FinalizacaoModal").on('show.bs.modal', function(){
+	var total=0;
+	document.getElementById("resumoPedido").innerHTML="";
+	itens.forEach(function(menuitem){
+		total+=menuitem.quantidade*menuitem.preco;
+		if(menuitem.quantidade!="0"){
+			document.getElementById("resumoPedido").innerHTML+='<li class="list-group-item d-flex justify-content-between"><div><h6 class="my-0"><b>'+menuitem.nome+'</b></h6> <small class="text-muted">Quantidade: '+menuitem.quantidade+'</small></div> <span class="text-muted">R$'+(menuitem.quantidade*menuitem.preco).toFixed(2).replace(".",",")+'</span></li>';
+		}
+	})
+	document.getElementById("resumoPedido").innerHTML+='<li class="list-group-item d-flex justify-content-between"> <span>Total</span> <b id="TotalFinal">R$ 0,00</b> </li>'
+   document.getElementById("TotalFinal").innerHTML="R$ "+total.toFixed(2).replace(".",",");
+});
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
